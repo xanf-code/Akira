@@ -63,8 +63,8 @@ function scrapefunction(error, response, html) {
 
 router.get('/getInsiderData', async (req, res) => {
     try {
-        const query = req.query;
-        const result = await Insider.find(query, "-__v -_id");
+        const _query = req.query;
+        const result = await Insider.find(_query, "-__v -_id").limit(parseInt(_query.size));
         res.status(200).json({
             status: "OK",
             totalResults: result.length.toString(),
