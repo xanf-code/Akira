@@ -2,7 +2,6 @@ const express = require('express');
 const request = require("request-promise")
 const cheerio = require("cheerio")
 const Insider = require('../models/insider_model');
-const { query } = require('express');
 
 const router = express.Router();
 
