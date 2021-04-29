@@ -5,7 +5,7 @@ const Insider = require('../models/insider_model');
 
 const router = express.Router();
 
-const url = 'http://openinsider.com/screener?s=&o=&pl=&ph=&ll=&lh=&fd=730&fdr=&td=0&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&xs=1&vl=5&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isceo=1&iscoo=1&iscfo=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=0&cnt=500'
+const url = 'http://openinsider.com/screener?s=&o=&pl=&ph=&ll=&lh=&fd=730&fdr=&td=0&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&xs=1&vl=&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isceo=1&iscoo=1&iscfo=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=0&cnt=500'
 
 router.get("/", async (req, res) => {
     try {
@@ -64,14 +64,13 @@ function scrapefunction(error, response, html) {
 router.get('/getInsiderData', async (req, res) => {
     try {
         const _query = req.query;
-        const result = await Insider.find(_query, "-__v -_id").limit(parseInt(_query.size));
-        res.status(200).json({
-            status: "OK",
-            totalResults: result.length.toString(),
-            data: result,
-        });
-    } catch (e) {
+        const result = await Insider.find(_query, "-__v -_id");
+        res.status(200).json({ total: result.length, result });
+    } catch (err) {
         console.log(error);
+        res.status(500).json({
+            error: err
+        })
     }
 })
 
