@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000
 const app = express();
 
+app.set('view engine', 'ejs')
+app.set('view options', {
+    layout: false
+})
+
 require('dotenv').config();
 let mongoURL = process.env.MongoDB_URL;
 
@@ -20,7 +25,9 @@ connection.once("open", () => {
 
 app.use(express.json());
 
-app.route("/").get((req, res) => res.json("Root"));
+app.route("/").get((req, res) => {
+    res.render('index')
+});
 
 const scrapeRoute = require("./routes/data_scrape");
 app.use("/scrapedata", scrapeRoute);
