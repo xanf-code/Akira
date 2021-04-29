@@ -6,7 +6,6 @@ const app = express();
 require('dotenv').config();
 let mongoURL = process.env.MongoDB_URL;
 
-//Mongo Connection
 mongoose.connect(mongoURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -21,10 +20,8 @@ connection.once("open", () => {
 
 app.use(express.json());
 
-//Main Route
 app.route("/").get((req, res) => res.json("Root"));
 const scrapeRoute = require("./routes/data_scrape");
 app.use("/scrapedata", scrapeRoute)
 
-//Access Log
 app.listen(PORT, () => console.log(`Server running successfully at ${PORT}`));
