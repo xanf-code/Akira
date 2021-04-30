@@ -60,7 +60,7 @@ function scrapefunction(error, response, html) {
                 tradeQuantity: database_tradeQuantity,
                 stocksOwned: database_stocksOwned,
                 stockPercent: database_stockPercent,
-                values: database_value,
+                value: database_value,
             });
             insider.save();
         });
