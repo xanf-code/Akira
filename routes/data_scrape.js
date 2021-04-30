@@ -49,7 +49,7 @@ function scrapefunction(error, response, html) {
                 ticker: database_ticker,
                 tickerImageUrl: database_tickerImageUrl,
                 communityURL: database_communityURL,
-                newsUrl: database_newsUrl,
+                newsURL: database_newsURL,
                 companyName: database_companyName,
                 insiderName: database_insiderName,
                 insiderLink: database_insiderLink,
