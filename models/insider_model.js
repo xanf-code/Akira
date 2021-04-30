@@ -12,6 +12,9 @@ const Insider = Schema({
     tickerImageUrl: {
         type: String,
     },
+    communityURL: {
+        type: String,
+    },
     companyName: {
         type: String,
     },
