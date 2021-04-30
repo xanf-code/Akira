@@ -6,6 +6,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         await Insider.collection.drop().then(() => {
+            //request("localhost:5000/scrapedata");
             request("https://insidershibu.herokuapp.com/scrapedata");
             res.send({
                 type: 'delete',
