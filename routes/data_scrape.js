@@ -31,7 +31,8 @@ function scrapefunction(error, response, html) {
             database_ticker = $(el).find('td:nth-child(4) > b > a').text();
             database_tickerImageUrl = `https://www.profitspi.com/stock/stock-charts.ashx?chart=${database_ticker}&v=stock-chart&vs=637553767788578012`;
             database_communityURL = `https://api.stocktwits.com/api/2/streams/symbol/${database_ticker}.json?filter=top&limit=20`;
-            database_companyName = $(el).find('td:nth-child(5) > a').text();
+            database_newsURL = `https://seekingalpha.com/api/v3/symbols/${database_ticker}/news?page[size]=5`,
+                database_companyName = $(el).find('td:nth-child(5) > a').text();
             database_insiderName = $(el).find('td:nth-child(6) > a').text();
             database_insiderLink = $(el).find('td:nth-child(6) > a').attr('href');
             database_insiderID = $(el).find('td:nth-child(6) > a').attr('href').substring(database_insiderLink.length - 7);
@@ -48,6 +49,7 @@ function scrapefunction(error, response, html) {
                 ticker: database_ticker,
                 tickerImageUrl: database_tickerImageUrl,
                 communityURL: database_communityURL,
+                newsUrl: database_newsUrl,
                 companyName: database_companyName,
                 insiderName: database_insiderName,
                 insiderLink: database_insiderLink,

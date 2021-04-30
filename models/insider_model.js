@@ -15,6 +15,9 @@ const Insider = Schema({
     communityURL: {
         type: String,
     },
+    newsUrl: {
+        type: String,
+    },
     companyName: {
         type: String,
     },
