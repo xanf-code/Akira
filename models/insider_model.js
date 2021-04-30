@@ -9,6 +9,9 @@ const Insider = Schema({
     ticker: {
         type: String,
     },
+    tickerImageUrl: {
+        type: String,
+    },
     companyName: {
         type: String,
     },

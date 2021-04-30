@@ -29,6 +29,7 @@ function scrapefunction(error, response, html) {
         $("#tablewrapper > table > tbody > tr").each((i, el) => {
             database_date = $(el).find('td:nth-child(3) > div').text();
             database_ticker = $(el).find('td:nth-child(4) > b > a').text();
+            database_tickerImageUrl = `https://www.profitspi.com/stock/stock-charts.ashx?chart=${database_ticker}&v=stock-chart`;
             database_companyName = $(el).find('td:nth-child(5) > a').text();
             database_insiderName = $(el).find('td:nth-child(6) > a').text();
             database_insiderLink = $(el).find('td:nth-child(6) > a').attr('href');
@@ -44,6 +45,7 @@ function scrapefunction(error, response, html) {
             const insider = Insider({
                 date: database_date,
                 ticker: database_ticker,
+                tickerImageUrl: database_tickerImageUrl,
                 companyName: database_companyName,
                 insiderName: database_insiderName,
                 insiderLink: database_insiderLink,
