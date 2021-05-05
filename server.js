@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000
 const app = express();
+var cors = require('cors')
 
 app.set('view engine', 'ejs')
 app.set('view options', {
@@ -23,7 +24,7 @@ connection.once("open", () => {
     console.log("MpongoDB is connected");
 });
 
-app.use(express.json());
+app.use(express.json(), cors());
 
 app.route("/").get((req, res) => {
     res.render('index')
