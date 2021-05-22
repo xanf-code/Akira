@@ -2,10 +2,29 @@ const express = require('express');
 const request = require("request-promise")
 const cheerio = require("cheerio")
 const Insider = require('../models/insider_model');
+var mcache = require('memory-cache');
 
 const router = express.Router();
 
 const url = 'http://openinsider.com/screener?s=&o=&pl=&ph=&ll=&lh=&fd=730&fdr=&td=0&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&xs=1&vl=&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isceo=1&iscoo=1&iscfo=1&isvp=1&isdirector=1&istenpercent=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=1&cnt=500'
+
+var cache = (duration) => {
+    return (req, res, next) => {
+        let key = '__express__' + req.originalUrl || req.url
+        let cachedBody = mcache.get(key)
+        if (cachedBody) {
+            res.send(cachedBody)
+            return
+        } else {
+            res.sendResponse = res.send
+            res.send = (body) => {
+                mcache.put(key, body, duration * 1000);
+                res.sendResponse(body)
+            }
+            next()
+        }
+    }
+}
 
 router.get("/", async (req, res) => {
     try {
@@ -67,7 +86,7 @@ function scrapefunction(error, response, html) {
     }
 }
 
-router.get('/getInsiderData', async (req, res) => {
+router.get('/getInsiderData', cache(10800), async (req, res) => {
     try {
         const _query = req.query;
         const result = await Insider.find({}, "-__v").limit(parseInt(_query.limit));
