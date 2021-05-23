@@ -51,7 +51,7 @@ router.get("/screener", async (req, res) => {
         });
     } catch (error) {
         res.send({
-            type: 'error',
+            type: error.message,
             status: 500
         });
     }
