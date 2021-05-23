@@ -36,8 +36,10 @@ router.get("/scrapescreener", async (req, res) => {
             );
         }
     } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
+        res.send({
+            type: "error",
+            status: 500,
+        });
     } finally {
         res.send({
             type: "Data Scraped",
