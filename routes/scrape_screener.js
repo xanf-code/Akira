@@ -50,8 +50,9 @@ router.get("/screener", async (req, res) => {
             });
         });
     } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
+        res.sendStatus(500).json({
+            error: error
+        });
     }
 })
 
@@ -87,8 +88,8 @@ function scrapefunction(error, response, html) {
             database_quantityshares = $(el)
                 .find("td:nth-child(8)")
                 .text()
-                .trim()
-                .split("\n")[0];
+                .trim();
+            // .split("\n")[0];
             database_percentage = $(el)
                 .find("td:nth-child(8) > span > i > b")
                 .text()
