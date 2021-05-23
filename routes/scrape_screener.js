@@ -28,8 +28,10 @@ var cache = (duration) => {
 //ScrapeData
 router.get("/screener", async (req, res) => {
     try {
+        var j = request.jar();
         await request({
             url: url,
+            jar: j,
             headers: {
                 'accept': 'application/json, text/javascript, */*; q=0.01',
                 'accept-encoding': 'gzip, deflate, br',
