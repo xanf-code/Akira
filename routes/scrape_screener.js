@@ -26,86 +26,100 @@ var cache = (duration) => {
 
 //ScrapeData
 router.get("/scrapescreener", async (req, res) => {
-    for (index = 1; index <= 100; index++) {
-        await request(
-            `https://www.insiderscreener.com/en/explore?page=${index}&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
-            (error, response, html) => {
-                scrapefunction(error, response, html);
-            }
-        );
-    }
-});
-
-function scrapefunction(error, response, html) {
-    if (!error && response.statusCode == 200) {
-        const $ = cheerio.load(html);
-        $(
-            "#transactions > div > div > div.table-responsive-md > table > tbody > tr"
-        ).each((i, el) => {
-            database_transactionDate = $(el).find("td:nth-child(3)").text().trim();
-            database_companyName = $(el)
-                .find("td:nth-child(4) > div > a:nth-child(1)")
-                .text()
-                .trim();
-            database_ticker = $(el)
-                .find("td:nth-child(4) > div > span")
-                .text()
-                .trim();
-            database_companyType = $(el)
-                .find("td:nth-child(4) > small")
-                .text()
-                .trim();
-            database_insiderName = $(el).find("td:nth-child(6) > p").text().trim();
-            database_insiderTitle = $(el)
-                .find("td:nth-child(6) > span")
-                .text()
-                .trim();
-            database_tradeType = $(el)
-                .find("td:nth-child(5) > span > span.d-none.d-sm-block")
-                .text()
-                .trim();
-            database_tradePrice = $(el).find("td:nth-child(9)").text().trim();
-            database_quantityshares = $(el)
-                .find("td:nth-child(8)")
-                .text()
-                .trim()
-                .split("\n")[0];
-            database_percentage = $(el)
-                .find("td:nth-child(8) > span > i > b")
-                .text()
-                .trim();
-            database_value = $(el)
-                .find(
-                    "td.font-weight-bold.align-middle.text-right.d-none.d-sm-table-cell > span"
-                )
-                .text()
-                .trim()
-                .replace(/\n/g, "");
-            database_countryImage = $(el).find("td:nth-child(1) > img").attr("src");
-            database_companyLink = $(el)
-                .find("td:nth-child(4) > div > a:nth-child(1)")
-                .attr("href");
-            const screener = Screener({
-                TransactionDate: database_transactionDate,
-                Ticker: database_ticker,
-                CompanyType: database_companyType,
-                CompanyName: database_companyName,
-                InsiderName: database_insiderName,
-                InsiderTitle: database_insiderTitle,
-                TradeType: database_tradeType,
-                Price: database_tradePrice,
-                QuantityShares: database_quantityshares,
-                Percentage: database_percentage,
-                Value: database_value,
-                url: {
-                    CompanyLink: database_companyLink,
-                    CountryImage: database_countryImage,
-                },
-            });
-            screener.save();
+    try {
+        for (index = 1; index <= 13; index++) {
+            await request(
+                `https://www.insiderscreener.com/en/explore?page=${index}&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
+                (error, response, html) => {
+                    if (!error && response.statusCode == 200) {
+                        const $ = cheerio.load(html);
+                        $(
+                            "#transactions > div > div > div.table-responsive-md > table > tbody > tr"
+                        ).each((i, el) => {
+                            database_transactionDate = $(el)
+                                .find("td:nth-child(3)")
+                                .text()
+                                .trim();
+                            database_companyName = $(el)
+                                .find("td:nth-child(4) > div > a:nth-child(1)")
+                                .text()
+                                .trim();
+                            database_ticker = $(el)
+                                .find("td:nth-child(4) > div > span")
+                                .text()
+                                .trim();
+                            database_companyType = $(el)
+                                .find("td:nth-child(4) > small")
+                                .text()
+                                .trim();
+                            database_insiderName = $(el)
+                                .find("td:nth-child(6) > p")
+                                .text()
+                                .trim();
+                            database_insiderTitle = $(el)
+                                .find("td:nth-child(6) > span")
+                                .text()
+                                .trim();
+                            database_tradeType = $(el)
+                                .find("td:nth-child(5) > span > span.d-none.d-sm-block")
+                                .text()
+                                .trim();
+                            database_tradePrice = $(el).find("td:nth-child(9)").text().trim();
+                            database_quantityshares = $(el)
+                                .find("td:nth-child(8)")
+                                .text()
+                                .trim()
+                                .split("\n")[0];
+                            database_percentage = $(el)
+                                .find("td:nth-child(8) > span > i > b")
+                                .text()
+                                .trim();
+                            database_value = $(el)
+                                .find(
+                                    "td.font-weight-bold.align-middle.text-right.d-none.d-sm-table-cell > span"
+                                )
+                                .text()
+                                .trim()
+                                .replace(/\n/g, "");
+                            database_countryImage = $(el)
+                                .find("td:nth-child(1) > img")
+                                .attr("src");
+                            database_companyLink = $(el)
+                                .find("td:nth-child(4) > div > a:nth-child(1)")
+                                .attr("href");
+                            const screener = Screener({
+                                TransactionDate: database_transactionDate,
+                                Ticker: database_ticker,
+                                CompanyType: database_companyType,
+                                CompanyName: database_companyName,
+                                InsiderName: database_insiderName,
+                                InsiderTitle: database_insiderTitle,
+                                TradeType: database_tradeType,
+                                Price: database_tradePrice,
+                                QuantityShares: database_quantityshares,
+                                Percentage: database_percentage,
+                                Value: database_value,
+                                url: {
+                                    CompanyLink: database_companyLink,
+                                    CountryImage: database_countryImage,
+                                },
+                            });
+                            screener.save();
+                        });
+                    }
+                }
+            );
+        }
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    } finally {
+        res.send({
+            type: "Data Scraped",
+            status: 200,
         });
     }
-}
+});
 
 //GET All insider
 router.get("/api/v1/screener", cache(43200), async (req, res) => {
