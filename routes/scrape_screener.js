@@ -50,8 +50,9 @@ router.get("/screener", async (req, res) => {
             });
         });
     } catch (error) {
-        res.sendStatus(500).json({
-            error: error
+        res.send({
+            type: 'error',
+            status: 500
         });
     }
 })
