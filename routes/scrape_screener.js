@@ -26,7 +26,7 @@ var cache = (duration) => {
 
 //ScrapeData
 router.get("/scrapescreener1", async (req, res) => {
-    for (index = 1; index <= 3; index++) {
+    for (index = 1; index <= 2; index++) {
         await request(
             `https://www.insiderscreener.com/en/explore?page=${index}&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
             (error, response, html) => {
