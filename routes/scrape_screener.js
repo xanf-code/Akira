@@ -35,15 +35,14 @@ router.get("/scrapescreener", async (req, res) => {
                 }
             );
         }
+        res.send({
+            type: "Data Scraped",
+            status: 200,
+        });
     } catch (e) {
         res.send({
             type: e.message,
             status: 500,
-        });
-    } finally {
-        res.send({
-            type: "Data Scraped",
-            status: 200,
         });
     }
 });
