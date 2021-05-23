@@ -35,9 +35,9 @@ router.get("/scrapescreener", async (req, res) => {
                 }
             );
         }
-    } catch (error) {
+    } catch (e) {
         res.send({
-            type: "error",
+            type: e.message,
             status: 500,
         });
     } finally {

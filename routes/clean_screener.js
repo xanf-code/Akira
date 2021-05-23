@@ -6,15 +6,16 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         await Screener.collection.drop().then(() => {
-            axios.get("https://insidershibu.herokuapp.com/screener/scrapescreener");
-            res.send({
-                type: "DB Deleted",
-                status: 200,
+            axios.get("https://insidershibu.herokuapp.com/screener/scrapescreener").then(() => {
+                res.send({
+                    type: "DB Deleted",
+                    status: 200,
+                });
             });
         });
-    } catch (error) {
+    } catch () {
         res.send({
-            type: "error",
+            type: e.message,
             status: 500,
         });
     }
