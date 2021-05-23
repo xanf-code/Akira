@@ -26,32 +26,22 @@ var cache = (duration) => {
 
 //ScrapeData
 router.get("/scrapescreener1", async (req, res) => {
-    for (index = 1; index <= 2; index++) {
+    try {
         await request(
-            `https://www.insiderscreener.com/en/explore?page=${index}&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
+            `https://www.insiderscreener.com/en/explore?page=1&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
             (error, response, html) => {
                 scrapefunction(error, response, html);
             }
-        );
-    };
-    res.send({
-        status: 200
-    });
-});
-
-//ScrapeData
-router.get("/scrapescreener2", async (req, res) => {
-    for (index = 4; index <= 7; index++) {
-        await request(
-            `https://www.insiderscreener.com/en/explore?page=${index}&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
-            (error, response, html) => {
-                scrapefunction(error, response, html);
-            }
-        );
-    };
-    res.send({
-        status: 200
-    });
+        ).then(() => {
+            res.send({
+                status: 200
+            });
+        });
+    } catch (e) {
+        res.send({
+            error: 400
+        })
+    }
 });
 
 function scrapefunction(error, response, html) {
