@@ -5,6 +5,7 @@ const Screener = require("../models/screener_model");
 var mcache = require("memory-cache");
 
 const router = express.Router();
+const url = 'https://www.insiderscreener.com/en/explore?page=1&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL#transactions'
 
 var cache = (duration) => {
     return (req, res, next) => {
@@ -25,25 +26,21 @@ var cache = (duration) => {
 };
 
 //ScrapeData
-router.get("/scrapescreener", async (req, res) => {
+router.get("/scrape", async (req, res) => {
     try {
-        await request(
-            `https://www.insiderscreener.com/en/explore?page=1&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL#transactions`,
-            (error, response, html) => {
-                scrapefunction(error, response, html);
-            }
-        ).then(() => {
+        await request(url, (error, response, html) => {
+            scrapefunction(error, response, html)
+        }).then(() => {
             res.send({
+                type: 'scrape',
                 status: 200
             });
         });
-    } catch (e) {
-        res.send({
-            error: e,
-            status: 400,
-        })
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
     }
-});
+})
 
 function scrapefunction(error, response, html) {
     if (!error && response.statusCode == 200) {
