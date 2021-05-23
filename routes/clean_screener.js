@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
                 });
             });
         });
-    } catch () {
+    } catch (e) {
         res.send({
             type: e.message,
             status: 500,
