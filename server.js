@@ -34,5 +34,9 @@ const scrapeRoute = require("./routes/data_scrape");
 app.use("/scrapedata", scrapeRoute);
 const deleteRoute = require("./routes/clean_collection");
 app.use("/clean", deleteRoute);
+const scrapeScreenerRoute = require("./routes/scrape_screener");
+app.use("/screener", scrapeScreenerRoute);
+const deleteScreenerRoute = require("./routes/clean_screener");
+app.use("/screener/clean", deleteScreenerRoute);
 
 app.listen(PORT, () => console.log(`Server running successfully at ${PORT}`));
