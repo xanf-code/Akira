@@ -35,7 +35,7 @@ app.use("/scrapedata", scrapeRoute);
 const deleteRoute = require("./routes/clean_collection");
 app.use("/clean", deleteRoute);
 const scrapeScreenerRoute = require("./routes/scrape_screener");
-app.use("/screener", scrapeScreenerRoute);
+app.use("/scrapedata", scrapeScreenerRoute);
 const deleteScreenerRoute = require("./routes/clean_screener");
 app.use("/screener/clean", deleteScreenerRoute);
 
