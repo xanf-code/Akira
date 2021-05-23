@@ -26,24 +26,17 @@ var cache = (duration) => {
 
 //ScrapeData
 router.get("/scrapescreener", async (req, res) => {
-    try {
-        for (index = 1; index <= 10; index++) {
-            await request(
-                `https://www.insiderscreener.com/en/explore?page=${index}&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
-                (error, response, html) => {
-                    scrapefunction(error, response, html);
-                }
-            );
-        }
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
-    } finally {
-        res.send({
-            type: "Data Scraped",
-            status: 200,
-        });
-    }
+    for (index = 1; index <= 10; index++) {
+        await request(
+            `https://www.insiderscreener.com/en/explore?page=${index}&sort_by=transaction_date&sort_order=descending&transaction_type=BUY&transaction_type=SELL&position_type=1&position_type=2&position_type=3&position_type=4&position_type=5&position_type=6&position_type=7&position_type=8&position_type=9`,
+            (error, response, html) => {
+                scrapefunction(error, response, html);
+            }
+        );
+    };
+    res.send({
+        status: 200
+    });
 });
 
 function scrapefunction(error, response, html) {
