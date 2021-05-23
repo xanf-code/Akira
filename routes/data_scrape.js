@@ -86,7 +86,7 @@ function scrapefunction(error, response, html) {
     }
 }
 
-router.get('/getInsiderData', cache(10800), async (req, res) => {
+router.get('/getInsiderData', async (req, res) => {
     try {
         const _query = req.query;
         const result = await Insider.find({}, "-__v").limit(parseInt(_query.limit));
